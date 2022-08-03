@@ -28,7 +28,7 @@ export default function LoginPage() {
 
 		dispatch(loginUser(body)).then((response) => {
 			if (response.payload.loginSuccess) {
-				navigate(-1);
+				navigate("/");
 			} else {
 				alert("error");
 			}
