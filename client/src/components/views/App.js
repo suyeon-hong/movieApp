@@ -1,7 +1,7 @@
 import React from "react";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { LandingPage, LoginPage, RegisterPage } from "./index";
+import { LandingPage, LoginPage, RegisterPage, MovieDetail } from "./index";
 
 import Auth from "../../hoc/auth";
 
@@ -15,6 +15,11 @@ function App() {
 					exact
 					path="/RegisterPage"
 					element={Auth(RegisterPage, false)}
+				></Route>
+				<Route
+					exact
+					path="/movie/:movieId"
+					element={Auth(MovieDetail, false)}
 				></Route>
 			</Routes>
 		</Router>

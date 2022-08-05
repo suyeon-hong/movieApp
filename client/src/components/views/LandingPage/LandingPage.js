@@ -59,6 +59,7 @@ export default function LandingPage() {
 							(info, index) =>
 								info.poster_path && (
 									<GridCard
+										landingPage
 										poster_path={info.poster_path}
 										movie_id={info.id}
 										movie_title={info.original_title}
