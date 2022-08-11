@@ -7,6 +7,7 @@ import MovieInfo from "./Sections/MovieInfo";
 
 import { Button, Row } from "antd";
 import GridCard from "../Commons/GridCard";
+import Favorite from "./Sections/Favorite";
 
 export default function MovieDetail() {
 	const { movieId } = useParams();
@@ -34,7 +35,6 @@ export default function MovieDetail() {
 				setCasts(response.cast);
 			});
 	}, []);
-	console.log(casts);
 
 	return (
 		<>
@@ -46,6 +46,14 @@ export default function MovieDetail() {
 					margin: "1rem auto",
 				}}
 			>
+				<div style={{ display: "flex", justifyContent: "flex-end" }}>
+					<Favorite
+						movieInfo={movie}
+						movieId={movieId}
+						// userFrom={document.cookie["x_auth"]}
+					/>
+				</div>
+
 				{movie && <MovieInfo movie={movie} />}
 
 				<Button

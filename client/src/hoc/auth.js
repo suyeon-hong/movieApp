@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { authUser } from "../_actions/user_action";
 
 export default function (SpecificComponent, option, adminRoute = null) {
-	function AuthenticationCheack() {
+	function AuthenticationCheck() {
 		const dispatch = useDispatch();
 		const navigate = useNavigate();
 
@@ -28,5 +28,5 @@ export default function (SpecificComponent, option, adminRoute = null) {
 		return <SpecificComponent />;
 	}
 
-	return <AuthenticationCheack />;
+	return <AuthenticationCheck />;
 }
