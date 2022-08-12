@@ -7,6 +7,7 @@ import {
 	RegisterPage,
 	MovieDetail,
 	NavBar,
+	FavoritePage,
 } from "./index";
 
 import Auth from "../../hoc/auth";
@@ -32,6 +33,11 @@ function App() {
 						exact
 						path="/movie/:movieId"
 						element={Auth(MovieDetail, null)}
+					></Route>
+					<Route
+						exact
+						path="/FavoritePage"
+						element={Auth(FavoritePage, true)}
 					></Route>
 				</Routes>
 			</Router>

@@ -1,44 +1,49 @@
-import React, { useState } from "react";
-import { Button } from "antd";
+import React, { useState, useEffect } from "react";
+import { Menu } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function NavBar() {
 	const navigate = useNavigate();
-	const [user, setUser] = useState(null);
-	const authenticated = user != null;
+	const [isAuth, setIsAuth] = useState(false);
+	const menuItems = [{ label: "Favorite", key: "favorite" }];
+	const logoutItems = [{ label: "Logout", key: "Logout" }];
+	const loginItems = [
+		{ label: "Login", key: "Login" },
+		{ label: "Register", key: "Register" },
+	];
 
 	const toMainPage = () => {
 		navigate("/");
 	};
 
-	const toLoginPage = () => {
-		navigate("/LoginPage");
+	const onLocationHandler = (e) => {
+		const key = e.key;
+
+		if (key === "Logout") {
+			axios.get("/api/users/logout").then((response) => {
+				if (response.data.success) {
+					navigate("/LoginPage");
+				} else {
+					alert("로그아웃에 실패했습니다.");
+				}
+			});
+		} else {
+			navigate(`/${key}Page`);
+		}
+		getUserState();
 	};
 
-	const toRegisterPage = () => {
-		navigate("/RegisterPage");
-	};
+	async function getUserState() {
+		const result = await axios
+			.get("/api/users/auth")
+			.then((response) => response.data.isAuth);
+		setIsAuth(result);
+	}
 
-	const onLogoutHandler = () => {
-		axios.get("/api/users/logout").then((response) => {
-			if (response.data.success) {
-				navigate("/LoginPage");
-			} else {
-				alert("로그아웃에 실패했습니다.");
-			}
-		});
-	};
-
-	// useEffect(() => {
-	// 	async function getUserState() {
-	// 		const result = await axios
-	// 			.get("/api/users/auth")
-	// 			.then((response) => response.data.isAuth);
-	// 		return result;
-	// 	}
-	// 	setUserLogin(getUserState());
-	// }, []);
+	useEffect(() => {
+		getUserState();
+	}, []);
 
 	return (
 		<header
@@ -53,62 +58,38 @@ export default function NavBar() {
 				justifyContent: "space-between",
 				alignItems: "center",
 				padding: "0 7%",
+				zIndex: 100,
 			}}
 		>
-			<h1
-				style={{
-					fontSize: "18px",
-					fontWeight: "bold",
-					letterSpacing: "-.5px",
-					marginBottom: "0px",
-					cursor: "pointer",
-				}}
-				onClick={toMainPage}
-			>
-				MovieApp
-			</h1>
+			<div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+				<h1
+					style={{
+						fontSize: "18px",
+						fontWeight: "bold",
+						letterSpacing: "-.5px",
+						marginBottom: "0px",
+						cursor: "pointer",
+					}}
+					onClick={toMainPage}
+				>
+					MovieApp
+				</h1>
+				<Menu items={menuItems} onClick={onLocationHandler} />
+			</div>
 			<div>
-				{/* {authenticated ? (
-					<Button
-						style={{ height: "100%", border: "none" }}
-						onClick={onLogoutHandler}
-					>
-						Logout
-					</Button>
+				{isAuth ? (
+					<Menu
+						items={logoutItems}
+						onClick={onLocationHandler}
+						style={{ display: "flex", height: "50px" }}
+					/>
 				) : (
-					<>
-						<Button
-							style={{ height: "100%", border: "none" }}
-							onClick={toLoginPage}
-						>
-							Login
-						</Button>
-						<Button
-							style={{ height: "100%", border: "none" }}
-							onClick={toRegisterPage}
-						>
-							Register
-						</Button>
-					</>
-				)} */}
-				<Button
-					style={{ height: "100%", border: "none" }}
-					onClick={onLogoutHandler}
-				>
-					Logout
-				</Button>
-				<Button
-					style={{ height: "100%", border: "none" }}
-					onClick={toLoginPage}
-				>
-					Login
-				</Button>
-				<Button
-					style={{ height: "100%", border: "none" }}
-					onClick={toRegisterPage}
-				>
-					Register
-				</Button>
+					<Menu
+						items={loginItems}
+						onClick={onLocationHandler}
+						style={{ display: "flex", height: "50px" }}
+					/>
+				)}
 			</div>
 		</header>
 	);

@@ -47,11 +47,7 @@ export default function MovieDetail() {
 				}}
 			>
 				<div style={{ display: "flex", justifyContent: "flex-end" }}>
-					<Favorite
-						movieInfo={movie}
-						movieId={movieId}
-						// userFrom={document.cookie["x_auth"]}
-					/>
+					<Favorite movieInfo={movie} movieId={movieId} />
 				</div>
 
 				{movie && <MovieInfo movie={movie} />}

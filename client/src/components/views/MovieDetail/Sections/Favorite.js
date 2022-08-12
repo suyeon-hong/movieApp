@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Button } from "antd";
 import axios from "axios";
 
-export default function Favorite({ movieInfo, movieId, userFrom }) {
+export default function Favorite({ movieInfo, movieId }) {
 	const {
 		title: movieTitle,
 		backdrop_path: moviePost,
 		runtime: movieRunTime,
 	} = movieInfo;
 	const variables = {
-		userFrom,
 		movieId,
 		movieTitle,
 		moviePost,

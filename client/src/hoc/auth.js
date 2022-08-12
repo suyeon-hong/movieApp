@@ -12,7 +12,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
 			dispatch(authUser()).then((response) => {
 				if (!response.payload.isAuth) {
 					if (option) {
-						navigate("/login");
+						navigate("/LoginPage");
 					}
 				} else {
 					if (adminRoute && !response.payload.isAdmin) {
